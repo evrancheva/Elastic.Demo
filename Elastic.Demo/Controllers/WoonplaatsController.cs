@@ -20,14 +20,14 @@ namespace Elastic.Demo.Controllers
         }
 
         /// <summary>
-        /// Get the listings per woonplaats
+        /// Get the count of listings per woonplaats
         /// </summary>
         /// <returns></returns>
-        [HttpGet("top-10-woonplaats")]
-        public async Task<IActionResult> GetTop10WoondplaatsWithTheMostListings()
+        [HttpGet("top-woonplaats")]
+        public async Task<IActionResult> GetCountOfListingsPerWoonplats()
         {
             var response = _elasticClient.Search<Listing>(s => s
-                .Size(10)
+                .Size(0)
                 .Aggregations(a => a
                     .Terms("listings_per_woonplaats", c => c
                         .Field(f => f.Woonplaats.Suffix("keyword"))
@@ -40,7 +40,6 @@ namespace Elastic.Demo.Controllers
                 var buckets = response.Aggregations.Terms("listings_per_woonplaats").Buckets.ToList();
                 var relevantInfoBukcets = new List<KeyValuePair<string, long?>>(){};
 
-                
                 foreach (var bucket in buckets)
                 {
                     relevantInfoBukcets.Add(new KeyValuePair<string, long?>(bucket.Key, bucket.DocCount));

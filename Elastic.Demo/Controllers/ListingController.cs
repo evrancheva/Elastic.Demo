@@ -46,7 +46,6 @@ namespace Elastic.Demo.Controllers
         public async Task<IActionResult> Post([FromBody] Listing listing)
         {
             var response = await _elasticClient.IndexDocumentAsync(listing);
-            // Inspect the result of the synchronous operation
             if (!response.IsValid)
             {
                 return BadRequest();
