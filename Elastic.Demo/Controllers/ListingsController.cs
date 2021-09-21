@@ -8,13 +8,13 @@ using Nest;
 
 namespace Elastic.Demo.Controllers
 {
-    [Route("api/woonplaats")]
+    [Route("api/listings")]
     [ApiController]
-    public class WoonplaatsController : ControllerBase
+    public class ListingsController : ControllerBase
     {
         private readonly IElasticClient _elasticClient;
 
-        public WoonplaatsController(IElasticClient elasticClient)
+        public ListingsController(IElasticClient elasticClient)
         {
             _elasticClient = elasticClient;
         }
@@ -23,7 +23,7 @@ namespace Elastic.Demo.Controllers
         /// Get the count of listings per woonplaats
         /// </summary>
         /// <returns></returns>
-        [HttpGet("top-woonplaats")]
+        [HttpGet("listing-count-per-woonplaats")]
         public async Task<IActionResult> GetCountOfListingsPerWoonplats()
         {
             var response = _elasticClient.Search<Listing>(s => s
