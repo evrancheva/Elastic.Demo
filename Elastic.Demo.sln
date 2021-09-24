@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elastic.Demo", "Elastic.Demo\Elastic.Demo.csproj", "{4EDEEBD0-12EC-40B9-9BFF-7AFDB62CA7F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elastic.Demo.IntegrationTests", "Elastic.Demo.ComponentTests\Elastic.Demo.IntegrationTests.csproj", "{7CD27AB1-D72A-49AB-9C9B-F12675D01661}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elastic.Demo.IntegrationTests", "Elastic.Demo.IntegrationTests\Elastic.Demo.IntegrationTests.csproj", "{A498A61C-6765-4BCC-8233-06FD1524AA24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{4EDEEBD0-12EC-40B9-9BFF-7AFDB62CA7F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EDEEBD0-12EC-40B9-9BFF-7AFDB62CA7F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EDEEBD0-12EC-40B9-9BFF-7AFDB62CA7F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7CD27AB1-D72A-49AB-9C9B-F12675D01661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CD27AB1-D72A-49AB-9C9B-F12675D01661}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CD27AB1-D72A-49AB-9C9B-F12675D01661}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CD27AB1-D72A-49AB-9C9B-F12675D01661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A498A61C-6765-4BCC-8233-06FD1524AA24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A498A61C-6765-4BCC-8233-06FD1524AA24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A498A61C-6765-4BCC-8233-06FD1524AA24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A498A61C-6765-4BCC-8233-06FD1524AA24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
