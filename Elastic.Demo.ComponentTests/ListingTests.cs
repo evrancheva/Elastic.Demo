@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Elastic.Demo.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
@@ -11,8 +12,7 @@ namespace Elastic.Demo.IntegrationTests
     public class ListingTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly HttpClient _testClient;
-        private string existingListingId = "VOA4A3wBeFEty-vg3a1O";
-        private string existingGlobalId = "4648216";
+        private long existingGlobalId = 4648216;
         private readonly StringContent _body;
 
         public ListingTests(WebApplicationFactory<Startup> factory)
@@ -21,7 +21,7 @@ namespace Elastic.Demo.IntegrationTests
             var listing = new Listing
             {
                 Adres = "TestAddress",
-                GlobalId = new Random().Next(1000, 2000),
+                GlobalId = existingGlobalId,
                 KantoorNaam = "TestKantoor",
                 Omschrijving = "TestDescription",
                 OppervlakteVan = new Random().Next(100, 200),
@@ -33,23 +33,29 @@ namespace Elastic.Demo.IntegrationTests
         [Fact]
         public async void GetListingWithExistingGlobalId_ReturnsValidListing()
         {
+            // Arrange
+            await CreateTestListing();
+
             // Act
             var response = await _testClient.GetAsync($"api/listing/globalId/{existingGlobalId}");
 
             // Assert
             var result = JsonConvert.DeserializeObject<Listing>(await response.Content.ReadAsStringAsync());
-            Assert.Equal("Schrevenweg 6", result?.Adres);
+            Assert.Equal("TestAddress", result?.Adres);
         }
 
         [Fact]
         public async void GetListingWithExistingId_ReturnsValidListing()
         {
+            // Arrange
+            var id = await CreateTestListing();
+
             // Act
-            var response = await _testClient.GetAsync($"api/listing/id/{existingListingId}");
+            var response = await _testClient.GetAsync($"api/listing/id/{id}");
 
             // Assert
             var result = JsonConvert.DeserializeObject<Listing>(await response.Content.ReadAsStringAsync());
-            Assert.Equal("Schrevenweg 6", result?.Adres);
+            Assert.Equal("TestAddress", result?.Adres);
         }
 
         [Fact]
@@ -67,22 +73,23 @@ namespace Elastic.Demo.IntegrationTests
         [Fact]
         public async void UpdateExistingListing_ReturnsSuccess()
         {
+            // Arrange
+            var id = await CreateTestListing();
+
             // Act
-            var response = await _testClient.PutAsync($"api/listing/{existingListingId}", _body);
+            var response = await _testClient.PutAsync($"api/listing/{id}", _body);
             var contentString = await response.Content.ReadAsStringAsync();
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal($"Listing with id - {existingListingId} was successfully updated", contentString);
+            Assert.Equal($"Listing with id - {id} was successfully updated", contentString);
         }
 
         [Fact]
         public async void DeleteExistingListing_ReturnsSuccess()
         {
             // Arrange
-            var createResponse = await _testClient.PostAsync("api/listing/", _body);
-            var createContentString = await createResponse.Content.ReadAsStringAsync();
-            var id = createContentString.Split(':')[1].Trim();
+            var id = await CreateTestListing();
 
             // Act
             var response = await _testClient.DeleteAsync($"api/listing/{id}");
@@ -91,6 +98,14 @@ namespace Elastic.Demo.IntegrationTests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal($"Listing with id - {id} was succesfully deleted", contentString);
+        }
+
+        private async Task<string> CreateTestListing()
+        {
+            var createResponse = await _testClient.PostAsync("api/listing/", _body);
+            var createContentString = await createResponse.Content.ReadAsStringAsync();
+            var id = createContentString.Split(':')[1].Trim();
+            return id;
         }
     }
 }
